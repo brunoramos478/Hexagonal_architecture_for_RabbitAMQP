@@ -1,21 +1,25 @@
-package br.com.fusion.banck.consumer;
+package br.com.fusion.banck.producer;
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import br.com.fusion.banck.entity.FusionApiEntity;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 @Component
-class FusionBankApiRabbitConsumer {
+public class FusionBankApiRabbitProducer {
 
-    private final RestTemplate restTemplate = new RestTemplate();
-    
-	@RabbitListener(queues = "${fusion.queue.name}")
-	public void consume(String message) {
-		System.out.println("Message received: " + message);
+    private final RabbitTemplate rabbitTemplate;
 
-		// Envia os dados para o outro microserviço (exemplo: localhost na porta 8081)
-		String urlOutroServico = "http://localhost:8081/api/endpoint-destino";
-		restTemplate.postForObject(urlOutroServico, message, String.class);
-	}
+    public static final String EXCHANGE_NAME = "fusion.exchange";
+    public static final String ROUTING_KEY = "fusion.routing.key";
+
+    public FusionBankApiRabbitProducer(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+
+    }
+    // Responsavel por enviar os dados do controler para o outro microserviço.
+    public void sendQueue(FusionApiEntity message) {
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, message);
+
+    }
 
 }
