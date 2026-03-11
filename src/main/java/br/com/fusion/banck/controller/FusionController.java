@@ -25,7 +25,7 @@ public class FusionController {
             produces = "application/json",
             path = "/create-account"
     )
-    public ResponseEntity<Object> registerUser(@RequestBody FusionApiEntity dadosUsuario) {
+    public ResponseEntity<FusionApiEntity> registerUser(@RequestBody FusionApiEntity dadosUsuario) {
         producer.sendQueue(dadosUsuario);
         return ResponseEntity.ok().build();
 
