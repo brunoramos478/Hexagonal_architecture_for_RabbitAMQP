@@ -15,6 +15,7 @@ public class SpringSecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // ESSA LINHA É OBRIGATÓRIA PARA LIBERAR POST
                 .authorizeHttpRequests(auth -> auth
+                        // Permite que o spring security libere todas as rotas
                         .requestMatchers("/fusion/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()

@@ -21,10 +21,13 @@ public class FusionController {
     }
 
 // Campo de cadastro onde o usuário cria sua conta se não tiver.
-    @PostMapping("/create-account")
-    public ResponseEntity<FusionApiEntity> registerUser(@RequestBody FusionApiEntity dadosUsuario) {
+    @PostMapping(consumes = "application/json",
+            produces = "application/json",
+            path = "/create-account"
+    )
+    public ResponseEntity<Object> registerUser(@RequestBody FusionApiEntity dadosUsuario) {
         producer.sendQueue(dadosUsuario);
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
 
     }
 }

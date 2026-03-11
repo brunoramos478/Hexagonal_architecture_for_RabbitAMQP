@@ -1,11 +1,12 @@
 package br.com.fusion.banck.config;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 
 @Configuration
 public class FusionApiRabbitMqConfig {
@@ -33,9 +34,23 @@ public class FusionApiRabbitMqConfig {
 
     // Responsavel por gerenciar e converter o Json em objeto.
     @Bean
-    public MessageConverter messageConverter() {
-        return new Jackson2JsonMessageConverter();
-}
+    public MessageConverter messageConverter(){
+        return new MessageConverter() {
+            @Override
+            public Message toMessage(Object object, MessageProperties messageProperties) {
+                if (object instanceof String) {
+                    messageProperties.setContentType("text/plain");
+                    return new Message(((String) object).getBytes(), messageProperties);
+                }
+                messageProperties.setContentType("text/plain");
+                return new Message(object.toString().getBytes(), messageProperties);
+            }
 
+            @Override
+            public Object fromMessage(Message message) {
+                return new String(message.getBody());
+            }
+        };
+    }
 
 }
