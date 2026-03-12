@@ -3,6 +3,7 @@ package br.com.fusion.banck.controller;
 import br.com.fusion.banck.entity.FusionApiEntity;
 import br.com.fusion.banck.producer.FusionBankApiRabbitProducer;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation. *;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,9 @@ public class FusionController {
             produces = "application/json",
             path = "/create-account"
     )
-    public ResponseEntity<FusionApiEntity> registerUser(@RequestBody FusionApiEntity dadosUsuario) {
+    public ResponseEntity<String> registerUser(@RequestBody FusionApiEntity dadosUsuario) {
         producer.sendQueue(dadosUsuario);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Conta criada com sucesso!");
 
     }
 }
