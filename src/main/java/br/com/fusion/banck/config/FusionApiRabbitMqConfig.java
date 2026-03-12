@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 
 @Configuration
 public class FusionApiRabbitMqConfig {

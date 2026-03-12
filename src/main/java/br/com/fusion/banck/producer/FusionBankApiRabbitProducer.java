@@ -1,6 +1,7 @@
 package br.com.fusion.banck.producer;
 
 import br.com.fusion.banck.entity.FusionApiEntity;
+import br.com.fusion.banck.services.FusionServices;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -8,17 +9,24 @@ import org.springframework.stereotype.Component;
 public class FusionBankApiRabbitProducer {
 
     private final RabbitTemplate rabbitTemplate;
+    private final FusionServices fusionServices;
 
     public static final String EXCHANGE_NAME = "fusion.exchange";
     public static final String ROUTING_KEY = "fusion.routing.key";
 
-    public FusionBankApiRabbitProducer(RabbitTemplate rabbitTemplate) {
+    public FusionBankApiRabbitProducer(RabbitTemplate rabbitTemplate, FusionServices fusionServices) {
         this.rabbitTemplate = rabbitTemplate;
+        this.fusionServices = fusionServices;
 
     }
+
+
     // Responsavel por enviar os dados do controler para o outro microserviço.
     public void sendQueue(FusionApiEntity message) {
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, message);
+
+        // Metodo do service que faz a criptografia do Json.
+        String encryptedMessage = fusionServices.encryptJson(message);
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, encryptedMessage);
 
     }
 
