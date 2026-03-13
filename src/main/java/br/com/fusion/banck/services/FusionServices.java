@@ -52,11 +52,15 @@ public class FusionServices {
         // Envia a mensagem criptografada para a fila do RabbitMQ.
         rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, encryptedMessage);
 
+         // Pode aumentar o tempo de resposta
          // System.out.println(isOnline(fila_DB));
 
         return "Mensagem enviada com sucesso!";
     }
 
+
+    // Metodo util pra ver se a aplicação e fila está online. Vou está melhorando mais.
+    // Em contraproposta pode aumentar o tempo de resposta
     public String isOnline(String fila_Application) {
         this.applicationIsOnline = fila_Application;
 
