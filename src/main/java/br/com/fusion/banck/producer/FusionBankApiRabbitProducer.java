@@ -21,7 +21,7 @@ public class FusionBankApiRabbitProducer {
     }
 
     // Responsavel por enviar os dados do controler para o outro microserviço.
-    public void sendQueue(FusionApiEntity message) {
+    public Object sendQueue(FusionApiEntity message) {
 
         // Criptografa o Json
         String encryptedMessage = fusionServices.encryptJson(message);
@@ -30,6 +30,12 @@ public class FusionBankApiRabbitProducer {
 
         // Envia a mensagem para a fila do RabbitMQ
         rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, encryptedMessage);
+
+        Object response = rabbitTemplate.convertSendAndReceive(EXCHANGE_NAME, ROUTING_KEY, encryptedMessage);
+        System.out.println("Resposta do banco:  " + response);
+        return response;
+    
+        
 
     }
 
