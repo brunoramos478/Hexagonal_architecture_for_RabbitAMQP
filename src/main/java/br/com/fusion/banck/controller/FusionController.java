@@ -2,6 +2,7 @@ package br.com.fusion.banck.controller;
 
 import br.com.fusion.banck.entity.FusionApiEntity;
 import br.com.fusion.banck.producer.FusionBankApiRabbitProducer;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/fusion")
-@RateLimiter(name = "api-limit", fallbackMethod = "")
 public class FusionController {
 
     private final FusionBankApiRabbitProducer producer;
@@ -22,6 +22,7 @@ public class FusionController {
     }
 
 // Campo de cadastro onde o usuário cria sua conta se não tiver.
+    @RateLimiter(name = "api-limit", fallbackMethod = "fallbackUser")
     @PostMapping(consumes = "application/json",
             produces = "application/json",
             path = "/create-account"
@@ -30,5 +31,8 @@ public class FusionController {
         producer.sendQueue(dadosUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body("Conta criada com sucesso!");
 
+    }
+    public ResponseEntity<String> fallbackUser(FusionApiEntity dadosUsuario, RequestNotPermitted exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Você chegou ao limite. Tente novamente mais tarde.");
     }
 }
