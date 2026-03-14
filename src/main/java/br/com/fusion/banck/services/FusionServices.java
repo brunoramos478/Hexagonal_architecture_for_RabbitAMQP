@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,7 @@ public class FusionServices {
         }
     }
     // Metodo responsavel por enviar a mensagem para a fila do RabbitMQ.
+    @Cacheable(value = "create-account")
     public String sendMsgm(FusionApiEntity message) {
 
         // Criptografa a mensagem do payload usando um metodo da classe services.
