@@ -1,9 +1,12 @@
 package br.com.fusion.banck.controller;
 
 import br.com.fusion.banck.entity.FusionApiEntity;
+import br.com.fusion.banck.handler.FusionApiReturnBody;
+import br.com.fusion.banck.producer.FusionApiResponse;
 import br.com.fusion.banck.producer.FusionBankApiRabbitProducer;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation. *;
@@ -29,7 +32,7 @@ public class FusionController {
     )
     public ResponseEntity<String> registerUser(@RequestBody FusionApiEntity dadosUsuario) {
         producer.sendQueue(dadosUsuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Conta criada com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro realizado com sucesso!");
 
     }
     public ResponseEntity<String> fallbackUser(FusionApiEntity dadosUsuario, RequestNotPermitted exception) {

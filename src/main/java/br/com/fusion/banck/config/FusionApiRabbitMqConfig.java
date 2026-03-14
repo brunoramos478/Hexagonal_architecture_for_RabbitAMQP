@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @Configuration
 public class FusionApiRabbitMqConfig {
@@ -37,6 +39,11 @@ public class FusionApiRabbitMqConfig {
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
         return new RabbitAdmin(connectionFactory);
+    }
+
+    @Bean
+    public Executor threadVirtual() {
+        return Executors.newVirtualThreadPerTaskExecutor();
     }
 
     // Responsavel por gerenciar e converter o Json em objeto.

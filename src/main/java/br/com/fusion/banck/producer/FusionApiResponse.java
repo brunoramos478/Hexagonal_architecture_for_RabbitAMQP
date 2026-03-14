@@ -9,9 +9,5 @@ public class FusionApiResponse {
     @RabbitListener(queues = "cadastro-cliente-response-queue")
     public void receiveMsgm(String response) {
 
-        System.out.println("Mensagem recebida: " + response);
-
-
-
     }
 }
