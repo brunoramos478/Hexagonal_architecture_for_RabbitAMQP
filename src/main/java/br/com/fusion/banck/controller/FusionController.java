@@ -32,6 +32,7 @@ public class FusionController {
     )
     public ResponseEntity<String> registerUser(@RequestBody FusionApiEntity dadosUsuario) {
         producer.sendQueue(dadosUsuario);
+        FusionApiResponse response = new FusionApiResponse();
         return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro realizado com sucesso!");
 
     }
