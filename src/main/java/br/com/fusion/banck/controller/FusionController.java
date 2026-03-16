@@ -1,12 +1,10 @@
 package br.com.fusion.banck.controller;
 
 import br.com.fusion.banck.entity.FusionApiEntity;
-import br.com.fusion.banck.handler.FusionApiReturnBody;
 import br.com.fusion.banck.producer.FusionApiResponse;
 import br.com.fusion.banck.producer.FusionBankApiRabbitProducer;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation. *;

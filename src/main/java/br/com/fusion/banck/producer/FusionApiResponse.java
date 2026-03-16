@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class FusionApiResponse {
 
-    @RabbitListener(queues = "cadastro-cliente-response-queue")
+    @RabbitListener(queues = "${fila.DB.Response}")
     public void receiveMsgm(String response) {
+
+        System.out.println("Resposta recebida: " + response);
 
     }
 }

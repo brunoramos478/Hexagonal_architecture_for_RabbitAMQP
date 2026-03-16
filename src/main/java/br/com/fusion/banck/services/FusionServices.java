@@ -10,18 +10,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @Service
 public class FusionServices {
 
     @Value("${fila.DB}")
     private String fila_DB;
+
     private final TextEncryptor textEncryptor;
     private final ObjectMapper objectMapper;
     private final RabbitTemplate rabbitTemplate;
     private final RabbitAdmin rabbitAdmin;
-    private static final Logger logger = LoggerFactory.getLogger(FusionServices.class);
 
+    private static final Logger logger = LoggerFactory.getLogger(FusionServices.class);
     private static final String EXCHANGE_NAME = "fusion.exchange";
     private static final String ROUTING_KEY = "fusion.routing.key";
 
@@ -57,6 +60,7 @@ public class FusionServices {
 
          // Pode aumentar o tempo de resposta
          // System.out.println(isOnline(fila_DB));
+          System.out.println("Hora do servidor: " + serverCheckHours()+ " Fuso horário UTC global.");
 
         return "Mensagem enviada com sucesso!";
     }
@@ -85,5 +89,10 @@ public class FusionServices {
     }
 
 
+    // Define a hora do servidor baseado no fuso horário UTC global.
+    public OffsetDateTime serverCheckHours() {
+        OffsetDateTime serverHours = OffsetDateTime.now(ZoneOffset.UTC);
+        return serverHours;
+    }
 
 }
