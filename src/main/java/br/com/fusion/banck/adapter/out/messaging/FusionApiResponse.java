@@ -1,4 +1,4 @@
-package br.com.fusion.banck.producer;
+package br.com.fusion.banck.adapter.out.messaging;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;

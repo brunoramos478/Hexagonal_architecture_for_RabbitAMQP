@@ -1,4 +1,4 @@
-package br.com.fusion.banck.entity;
+package br.com.fusion.banck.domain.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;

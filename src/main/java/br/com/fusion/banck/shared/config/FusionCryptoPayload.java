@@ -1,4 +1,4 @@
-package br.com.fusion.banck.config;
+package br.com.fusion.banck.shared.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

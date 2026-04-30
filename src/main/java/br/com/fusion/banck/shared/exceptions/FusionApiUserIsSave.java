@@ -1,4 +1,4 @@
-package br.com.fusion.banck.exceptions;
+package br.com.fusion.banck.shared.exceptions;
 
 public class FusionApiUserIsSave extends RuntimeException {
 

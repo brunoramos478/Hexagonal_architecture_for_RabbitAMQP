@@ -1,4 +1,4 @@
-package br.com.fusion.banck.config;
+package br.com.fusion.banck.shared.config;
 
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
