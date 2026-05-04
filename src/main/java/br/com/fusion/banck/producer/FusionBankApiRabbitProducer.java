@@ -8,21 +8,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class FusionBankApiRabbitProducer {
 
-    private final RabbitTemplate rabbitTemplate;
     private final FusionServices fusionServices;
 
-
-    public FusionBankApiRabbitProducer(RabbitTemplate rabbitTemplate, FusionServices fusionServices) {
-        this.rabbitTemplate = rabbitTemplate;
+    public FusionBankApiRabbitProducer(FusionServices fusionServices) {
         this.fusionServices = fusionServices;
-
     }
 
     // Responsavel por enviar os dados do controler para o outro microserviço.
-    public Object sendQueue(FusionApiEntity message) {
+    public Object sendQueue(Object message, String EXCHANGE_NAME, String ROUTING_KEY) {
 
         // Chama o metodo enviar da classe services para enviar a mensagem para a fila do RabbitMQ
-        Object response = fusionServices.sendMsgm(message);
+        Object response = fusionServices.sendMsgm(message, EXCHANGE_NAME, ROUTING_KEY);
 
         return response;
     }

@@ -29,9 +29,8 @@ public class FusionController {
             path = "/create-account"
     )
     public ResponseEntity<String> registerUser(@RequestBody FusionApiEntity dadosUsuario) {
-        producer.sendQueue(dadosUsuario);
-        FusionApiResponse response = new FusionApiResponse();
-        return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro realizado com sucesso!");
+        producer.sendQueue(dadosUsuario, "fusion.exchange", "fusion.routing.key");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Cadastro  realizado  com  sucesso!");
 
     }
     public ResponseEntity<String> fallbackUser(FusionApiEntity dadosUsuario, RequestNotPermitted exception) {
