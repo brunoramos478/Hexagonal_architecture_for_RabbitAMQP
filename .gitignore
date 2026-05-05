@@ -19,6 +19,15 @@ target/
 *.iml
 *.ipr
 test.js
+*.log
+hs_err_pid*.log
+fusion-bank.log
+.env.*
+*.env
+config.json
+credentials.json
+*.pem
+*.key
 
 ### NetBeans ###
 /nbproject/private/
@@ -33,3 +42,4 @@ build/
 ### VS Code ###
 .vscode/
 application.properties
+application.yml

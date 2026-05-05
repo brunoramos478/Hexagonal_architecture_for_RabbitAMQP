@@ -51,7 +51,7 @@ public class FusionServices {
     }
     // Metodo responsavel por enviar a mensagem para a fila do RabbitMQ.
     @Cacheable(value = "create-account")
-    public String sendMsgm(String exchanger, String routingKey, FusionApiEntity message) {
+    public String sendMsgm(String exchanger, String routingKey, Object message) {
 
         // Criptografa a mensagem do payload usando um metodo da classe services.
         String encryptedMessage = encryptJson(message);
@@ -61,7 +61,7 @@ public class FusionServices {
 
          // Pode aumentar o tempo de resposta
          // System.out.println(isOnline(fila_DB));
-          System.out.println("Hora do servidor: " + serverCheckHours()+ " Fuso horário UTC global.");
+          //System.out.println("Hora do servidor: " + serverCheckHours()+ " Fuso horário UTC global.");
 
         return "Mensagem enviada com sucesso!";
     }
@@ -77,10 +77,10 @@ public class FusionServices {
         Integer count = (Integer) applicationIsOn.get(rabbitAdmin.QUEUE_CONSUMER_COUNT);
 
         if (count == 0 || count == null) {
-            return "Aplição offline, conexão recusada";
+            return "Aplicação offline, conexão recusada";
         }
         else {
-            return"Aplição online, conexão estabelecida com sucesso! Processando...";
+            return"Aplicação online, conexão estabelecida com sucesso! Processando...";
         }
 
     }

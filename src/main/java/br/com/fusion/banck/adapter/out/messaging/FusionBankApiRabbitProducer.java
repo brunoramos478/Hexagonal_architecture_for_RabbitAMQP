@@ -16,7 +16,7 @@ public class FusionBankApiRabbitProducer {
     }
 
     // Responsavel por enviar os dados do controler para o outro microserviço.
-    public Object sendQueue(String exchanger, String routingKey, FusionApiEntity dadosUsuario) {
+    public Object sendQueue(String exchanger, String routingKey, Object dadosUsuario) {
 
         // Chama o metodo enviar da classe services para enviar a mensagem para a fila do RabbitMQ
         Object response = fusionServices.sendMsgm(exchanger, routingKey, dadosUsuario);
