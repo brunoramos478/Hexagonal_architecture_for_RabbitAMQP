@@ -1,5 +1,6 @@
 package br.com.fusion.banck.application.service;
 
+import br.com.fusion.banck.shared.exceptions.NotFoundHours;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,8 @@ public class FusionTimeInterception implements HandlerInterceptor {
                 return false;
             }
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato de data invalido");
-            return false;
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato de data inválido");
+            throw new NotFoundHours("Certifique-se do horário do seu dispositivo.");
         }
 
         return true;

@@ -8,7 +8,8 @@ public enum StatusMessage {
     PROCESSING("PROCESSING"),
     PENDING("PENDING"),
     SUCCESS("SUCCESS"),
-    FAILED("FAILED");
+    FAILED("FAILED"),
+    DANIED("DANIED");
 
     private final String description;
 

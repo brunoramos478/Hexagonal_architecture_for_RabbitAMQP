@@ -3,6 +3,7 @@ package br.com.fusion.banck.adapter.in.web;
 import java.util.List;
 import br.com.fusion.banck.shared.dto.UserDto;
 import br.com.fusion.banck.shared.exceptions.ResponseSuccess;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class FusionController {
             path = "/create-account"
     )
     // Campo de cadastro onde o usuário cria sua conta se não tiver.
-    public ResponseEntity registerUser(@RequestBody UserDto dadosUsuario) {
+    public ResponseEntity registerUser(@Valid @RequestBody UserDto dadosUsuario) {
 
         dadosUsuario.validate(dadosUsuario);
         producer.sendQueue("fusion.exchange", "fusion.routing.key", dadosUsuario);
@@ -46,7 +47,7 @@ public class FusionController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<String>> getProducts(@RequestBody UserDto dadosUsuario) {
+    public ResponseEntity<List<String>> getProducts(@Valid @RequestBody UserDto dadosUsuario) {
         producer.sendQueue("fusion.products.exchange", "fusion.products.routing.key", dadosUsuario);
         return ResponseEntity.ok(List.of("Produto 1", "Produto 2", "Produto 3"));
     }
