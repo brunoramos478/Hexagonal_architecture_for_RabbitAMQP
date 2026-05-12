@@ -14,6 +14,8 @@ public class FusionCryptoPayload {
 
     @Value("${encrypt.key}")
     private String passwordEncrypt;
+    @Value("${encrypt.hash}")
+    private String passwordHash;
 
     // Esse bean é responsável por um metedo em especifico no services no injetor ObjectMapper.
     // Além de ser responsável pela compreensão de datas no Json.
@@ -27,7 +29,7 @@ public class FusionCryptoPayload {
 
     @Bean
     public TextEncryptor textEncryptor() {
-        return Encryptors.text(passwordEncrypt, "6ae6a23f8bb1a4e8565da4b0");
+        return Encryptors.text(passwordEncrypt, passwordHash);
     }
 
 }

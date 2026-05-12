@@ -1,9 +1,13 @@
 package br.com.fusion.banck.adapter.in.web;
 
 import java.util.List;
+
+import br.com.fusion.banck.shared.dto.DtoResponse;
 import br.com.fusion.banck.shared.dto.UserDto;
 import br.com.fusion.banck.shared.exceptions.ResponseSuccess;
+import br.com.fusion.banck.shared.mapper.ResponseMapper;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +18,10 @@ import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 
 @RestController
 @RequestMapping("/fusion")
+@RequiredArgsConstructor
 public class FusionController {
 
     private final FusionBankApiRabbitProducer producer;
-
-    public FusionController(FusionBankApiRabbitProducer producer) {
-        this.producer = producer;
-    }
 
     // Metodo fallback.
     public ResponseEntity<String> fallbackUser(UserDto dadosUsuario, RequestNotPermitted exception) {
@@ -35,15 +36,9 @@ public class FusionController {
     )
     // Campo de cadastro onde o usuário cria sua conta se não tiver.
     public ResponseEntity registerUser(@Valid @RequestBody UserDto dadosUsuario) {
-
-        dadosUsuario.validate(dadosUsuario);
         producer.sendQueue("fusion.exchange", "fusion.routing.key", dadosUsuario);
-        return ResponseEntity.ok(ResponseSuccess.builder()
-                .statusCode(HttpStatus.CREATED.value())
-                .message("Usuário cadastrado com sucesso!")
-                .timestamp(System.currentTimeMillis())
-                .data(dadosUsuario)
-                .build());
+        DtoResponse response = ResponseMapper.toResponse(dadosUsuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/products")

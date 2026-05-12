@@ -43,7 +43,7 @@ public class FusionApiRabbitMqConfig {
         return new RabbitAdmin(connectionFactory);
     }
 
-    @Bean
+    @Bean(name = "taskExecutor")
     public Executor threadVirtual() {
         return Executors.newVirtualThreadPerTaskExecutor();
     }

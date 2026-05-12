@@ -1,182 +1,100 @@
 package br.com.fusion.banck.shared.dto;
 
-import br.com.fusion.banck.shared.exceptions.FusionApiUserIsSave;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDate;
-import java.util.stream.Stream;
 
+@Getter
+@Setter
 public class UserDto {
 
+    public UserDto() {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.cpf = cpf;
+        this.birthDate = birthDate;
+        this.phone = phone;
+        this.address = address;
+        this.email = email;
+        this.region = region;
+        this.city = city;
+        this.state = state;
+        this.cep = cep;
+        this.password = password;
+    }
+
+    @NotNull(message = "First name is required")
     @NotBlank(message = "First name is required")
+    @Size(min = 3, max = 25, message = "First name must be between 3 and 25 characters")
     private String firstName;
+
+    @NotNull(message = "Last name is required")
     @NotBlank(message = "Last name is required")
+    @Size(min = 3, max = 30, message = "Last name must be between 3 and 30 characters")
     private String lastName;
+    @NotNull
     @NotBlank(message = "CPF is required")
     @Pattern(
             regexp = "\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}",
             message = "Invalid CPF"
     )
+    @Size(min = 11, max = 14, message = "CPF must be between 11 and 14 characters")
     private String cpf;
+
+    @NotNull(message = "Birth date is required")
     @Past(message = "Birth date must be in the past")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Birth date is required")
     private LocalDate birthDate;
+
+    @NotNull(message = "Phone is required")
     @NotBlank(message = "Phone is required")
     @Pattern(
-            regexp = "\\d{10,11}|\\(\\d{2}\\)\\d{4,5}-\\d{4}",
+            regexp = "\\d{10,19}|\\(\\d{2}\\)\\d{4,5}-\\d{4}",
             message = "Invalid phone"
     )
+    @Size(min = 10, max = 19, message = "Phone must be between 10 and 11 characters")
     private String phone;
+
+    @NotNull(message = "Address is required")
     @NotBlank(message = "Address is required")
+    @Size(min = 5, max = 100, message = "Address must be between 5 and 100 characters")
     private String address;
+
+    @NotNull(message = "Email is required")
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is required")
+    @Size(min = 5, max = 70, message = "Email must be between 5 and 50 characters")
     private String email;
+
+    @NotNull(message = "Region is required")
     @NotBlank(message = "Region is required")
+    @Size(min = 3, max = 40, message = "Region must be between 3 and 50 characters")
     private String region;
+
+    @NotNull(message = "City is required")
     @NotBlank(message = "City is required")
+    @Size(min = 3, max = 50, message = "City must be between 3 and 50 characters")
     private String city;
+
+    @NotNull(message = "State is required")
     @NotBlank(message = "State is required")
+    @Size(min = 2, max = 2, message = "State must be 2 characters")
     private String state;
+
+    @NotNull(message = "CEP is required")
     @NotBlank(message = "CEP is required")
     @Pattern(
             regexp = "\\d{8}|\\d{5}-\\d{3}",
             message = "Invalid CEP"
     )
+    @Size(min = 8, max = 10, message = "CEP must be between 8 and 10 characters")
     private String cep;
+
     @NotNull(message = "Password is required")
     @NotBlank(message = "Password is required")
+    @Size(min = 6, max = 20, message = "Password must be between 8 and 20 characters")
     private String password;
-
-    public UserDto() {
-    }
-
-    public UserDto(String firstName, String lastName, String cpf, LocalDate birthDate,
-                   String phone, String address, String email, String region, String city,
-                   String state, String cep, String password) {
-
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.cpf = cpf;
-        this.birthDate = birthDate;
-        this.phone = phone;
-        this.address = address;
-        this.email = email;
-        this.region = region;
-        this.city = city;
-        this.state = state;
-        this.cep = cep;
-        this.password = password;
-    }
-
-    public void validate(UserDto dto) {
-        boolean isInvalid = Stream.of(
-                dto.getFirstName(), dto.getLastName(), dto.getCpf(), dto.getBirthDate(),
-                dto.getPhone(), dto.getAddress(), dto.getEmail(), dto.getRegion(),
-                dto.getCity(), dto.getState(), dto.getCep(), dto.getPassword()
-        ).anyMatch(field -> field == null || (field instanceof String s && s.isBlank()));
-
-        if (isInvalid) {
-            throw new FusionApiUserIsSave("Erro ao salvar usuário. Certifique-se de que todos os campos estão preenchidos corretamente.");
-        }
-
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

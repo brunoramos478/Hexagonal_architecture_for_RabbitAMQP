@@ -51,7 +51,6 @@ public class UserMapper {
         dto.setCep(entity.getCep());
         dto.setPassword(entity.getPassword());
 
-
         return dto;
     }
 }

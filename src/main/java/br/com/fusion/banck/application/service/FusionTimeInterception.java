@@ -39,8 +39,7 @@ public class FusionTimeInterception implements HandlerInterceptor {
                 return false;
             }
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato de data inválido");
-            throw new NotFoundHours("Certifique-se do horário do seu dispositivo.");
+            throw new NotFoundHours("Erro ao verificar o horário. Por favor, certifique a hora do seu dispositivo e tente novamente.");
         }
 
         return true;
